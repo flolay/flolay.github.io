@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="89px" height="70px" viewBox="0 0 89 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.3 (12081) - http://www.bohemiancoding.com/sketch -->
+    <title>Untitled 4</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <path d="M89,52.3389933 C84.0908545,62.0151931 65.7412146,69.2045455 43.8550725,69.2045455 C23.5706101,69.2045455 6.32397102,63.0289571 4.4408921e-16,54.4215758 L0,29 L89,29 L89,52.3389933 Z" id="Oval-220-Copy-4" opacity="0.586333786" fill="#4A4A4A" sketch:type="MSShapeGroup"></path>
+        <ellipse id="Oval-220-Copy-3" fill="#AFADB0" sketch:type="MSShapeGroup" cx="44.5" cy="28.7954545" rx="44.5" ry="20.7954545"></ellipse>
+        <path d="M76,31.8346837 C72.469828,38.8142377 59.2745813,44 43.5362319,44 C28.9496522,44 16.5475747,39.5454773 12,33.3368744 L12,15 L76,15 L76,31.8346837 Z" id="Oval-220-Copy-2" fill="#A5D76E" sketch:type="MSShapeGroup"></path>
+        <ellipse id="Oval-220-Copy" fill="#C2F28C" sketch:type="MSShapeGroup" cx="44" cy="15" rx="32" ry="15"></ellipse>
+    </g>
+</svg>
