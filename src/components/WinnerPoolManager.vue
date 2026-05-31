@@ -47,12 +47,19 @@
         <div class="flex items-center justify-between mb-6">
           <h4 class="text-lg font-bold">Code-Erstellung</h4>
           <div class="flex items-center space-x-2">
-          <button 
+          <button
             v-if="authStore.isAdmin"
             @click="showCreateCodeDialog = true"
             class="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-300"
           >
             Neue Codes erstellen
+          </button>
+          <button
+            v-if="authStore.isAdmin && allCodes.length > 0"
+            @click="showDeleteAllDialog = true"
+            class="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300"
+          >
+            Alle Codes löschen
           </button>
           <button
             @click="loadData(true)"
@@ -597,6 +604,42 @@
       </div>
     </div>
     </Teleport>
+
+    <!-- Delete All Codes Dialog -->
+    <Teleport to="body">
+    <div v-if="showDeleteAllDialog" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl">
+        <div class="bg-gradient-to-r from-red-600 to-red-700 p-6 text-white rounded-t-3xl">
+          <h3 class="text-2xl font-bold">Alle Codes löschen</h3>
+          <p class="opacity-90">Alle {{ allCodes.length }} Codes werden unwiderruflich gelöscht</p>
+        </div>
+
+        <div class="p-6">
+          <div class="bg-red-50 p-4 rounded-xl mb-6">
+            <h4 class="font-semibold text-red-800 mb-2">&#x26A0;&#xFE0F; Warnung</h4>
+            <p class="text-sm text-red-700">Diese Aktion löscht alle {{ allCodes.length }} Codes ({{ winnerCodes.length }} Gewinner, {{ usedCodes.length }} verwendet). Dies kann NICHT rückgängig gemacht werden!</p>
+          </div>
+
+          <div class="flex space-x-3">
+            <button
+              @click="deleteAllCodes"
+              :disabled="loading"
+              class="flex-1 bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 py-3 px-6 rounded-xl font-bold transition-all duration-300"
+            >
+              <Loader2 v-if="loading" class="animate-spin w-5 h-5 mr-2 inline" />
+              Ja, alle löschen
+            </button>
+            <button
+              @click="showDeleteAllDialog = false"
+              class="flex-1 bg-gray-100 text-gray-700 hover:bg-gray-200 py-3 px-6 rounded-xl font-bold transition-all duration-300"
+            >
+              Abbrechen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </Teleport>
   </div>
 </template>
 
@@ -628,6 +671,7 @@ const editCodeIsWinner = ref(false)
 const currentPage = ref(1)
 const itemsPerPage = 10
 const showResetDialog = ref(false)
+const showDeleteAllDialog = ref(false)
 
 const totalEntries = computed(() => {
   return teamsInPool.value.reduce((sum, team) => sum + (team.poolEntries || 0), 0)
@@ -905,6 +949,31 @@ watch(() => [teamsStore.teams.length, teamsStore.currentTeam], () => {
   // Reload when teams are added/removed or current team changes
   loadData()
 })
+
+async function deleteAllCodes() {
+  try {
+    loading.value = true
+    await codesStore.deleteAllCodes()
+
+    notify({
+      title: 'Erfolg',
+      text: 'Alle Codes wurden gelöscht',
+      type: 'success'
+    })
+
+    showDeleteAllDialog.value = false
+    await loadData()
+  } catch (error) {
+    console.error('Error deleting all codes:', error)
+    notify({
+      title: 'Fehler',
+      text: 'Codes konnten nicht gelöscht werden',
+      type: 'error'
+    })
+  } finally {
+    loading.value = false
+  }
+}
 
 async function resetWinnerPool() {
   try {
